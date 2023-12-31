@@ -1,11 +1,14 @@
 #!/bin/bash
-API_KEY="Your porkbun token API KEY which normally starts with pk1_"
-SECRET_API_KEY="Your porkbun token Secret Key that normally starts with sk1_"
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$SCRIPT_DIR/.env"
+
 # Has there been a successful record creation?
 if [ -f /tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT ]; then
         RESULT=$(cat /tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT)
         rm -f /tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT
-        RECORD_ID=$(echo $RESULT | python -c "import sys,json;print(json.load(sys.stdin)['id'])")
+        RECORD_ID=$(echo $RESULT | jq -r .id)")
 else
     echo "/tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT does not exist."
     echo "Aborting."

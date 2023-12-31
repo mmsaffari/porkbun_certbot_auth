@@ -1,6 +1,9 @@
 #!/bin/bash
-API_KEY="Your porkbun token API KEY which normally starts with pk1_"
-SECRET_API_KEY="Your porkbun token Secret Key that normally starts with sk1_"
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$SCRIPT_DIR/.env"
+
 # Strip only the top domain to get the zone id
 DOMAIN=$(expr match "$CERTBOT_DOMAIN" '.*\.\(.*\..*\)')
 # create payload
