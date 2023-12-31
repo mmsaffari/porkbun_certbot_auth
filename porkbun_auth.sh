@@ -18,8 +18,14 @@ PAYLOAD="{
 	\"content\": \"$CERTBOT_VALIDATION\"
 }"
 RESULT=$(curl -s -X POST "https://porkbun.com/api/json/v3/dns/create/$DOMAIN" -H "Content-Type: application/json" --data "$PAYLOAD")
+
+RESULT_DIRNAME=/tmp/CERTBOT_$CERTBOT_DOMAIN
 # Save info for cleanup
-if [ ! -d /tmp/CERTBOT_$CERTBOT_DOMAIN ];then
-        mkdir -m 0700 /tmp/CERTBOT_$CERTBOT_DOMAIN
+if [ ! -d $RESULT_DIRNAME ];then
+        mkdir -m 0700 $RESULT_DIRNAME
 fi
-echo $RESULT > /tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT
+
+RESULT_SUFFIX=$(openssl rand -hex 8)
+RESULT_FILE=$RESULT_DIRNAME/RESULT/$RESULT_SUFFIX
+echo $RESULT > $RESULT_FILE
+echo $RESULT_FILE

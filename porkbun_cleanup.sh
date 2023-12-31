@@ -4,13 +4,15 @@ SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 source "$SCRIPT_DIR/.env"
 
+RESULT_FILE=$CERTBOT_AUTH_OUTPUT
+
 # Has there been a successful record creation?
-if [ -f /tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT ]; then
-        RESULT=$(cat /tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT)
-        rm -f /tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT
+if [ -f $RESULT_FILE ]; then
+        RESULT=$(cat $RESULT_FILE)
+        rm -f $RESULT_FILE
         RECORD_ID=$(echo $RESULT | jq -r .id)
 else
-    echo "/tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT does not exist."
+    echo "$RESULT_FILE does not exist."
     echo "Aborting."
     exit 1
 fi
