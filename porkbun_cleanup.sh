@@ -16,6 +16,9 @@ else
 fi
 # Strip only the top domain to get the zone id
 DOMAIN=$(expr match "$CERTBOT_DOMAIN" '.*\.\(.*\..*\)')
+if [ -z $DOMAIN ]; then
+    DOMAIN=$CERTBOT_DOMAIN
+fi
 # create payload
 PAYLOAD="{
 	\"secretapikey\":\"$SECRET_API_KEY\",
