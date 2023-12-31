@@ -25,8 +25,10 @@ apt install jq -y
 ## Configure Certbot
 
 1. Create a folder like `/usr/local/etc/certbot`
-2. Copy `porkbun_cleanup.sh` and `porkbun_auth.sh` into that folder and make them executable by runing `chmod a+x /usr/local/etc/certbot/porkbun_*`
-3. Edit them using your text editor of choice and set `API_KEY` and `SECRET_API_KEY` to those values you received when you created a porkbun API token in the previous section.
+2. Copy `porkbun_cleanup.sh` and `porkbun_auth.sh` into that folder. They should already be executable, if they are not run `chmod a+x /usr/local/etc/certbot/porkbun_*`.
+3. Make a copy of `.env.example` and set up your `API_KEY` and `SECRET_API_KEY` to the values you received when you created a porkbun API token in the previous section.
+
+> Note: if you encounter errors of the type `Incorrect TXT record "<random token>" at _acme-challenge.example.com` try increasing AUTH_SLEEP in `.env`.
 
 ## Get your certificates
 
