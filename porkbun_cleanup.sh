@@ -8,7 +8,7 @@ source "$SCRIPT_DIR/.env"
 if [ -f /tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT ]; then
         RESULT=$(cat /tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT)
         rm -f /tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT
-        RECORD_ID=$(echo $RESULT | jq -r .id)")
+        RECORD_ID=$(echo $RESULT | jq -r .id)
 else
     echo "/tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT does not exist."
     echo "Aborting."
