@@ -1,18 +1,26 @@
 #!/bin/bash
-API_KEY="Your porkbun token API KEY which normally starts with pk1_"
-SECRET_API_KEY="Your porkbun token Secret Key that normally starts with sk1_"
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+source "$SCRIPT_DIR/.env"
+
+RESULT_FILE=$CERTBOT_AUTH_OUTPUT
+
 # Has there been a successful record creation?
-if [ -f /tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT ]; then
-        RESULT=$(cat /tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT)
-        rm -f /tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT
-        RECORD_ID=$(echo $RESULT | python -c "import sys,json;print(json.load(sys.stdin)['id'])")
+if [ -f $RESULT_FILE ]; then
+        RESULT=$(cat $RESULT_FILE)
+        rm -f $RESULT_FILE
+        RECORD_ID=$(echo $RESULT | jq -r .id)
 else
-    echo "/tmp/CERTBOT_$CERTBOT_DOMAIN/RESULT does not exist."
+    echo "$RESULT_FILE does not exist."
     echo "Aborting."
     exit 1
 fi
 # Strip only the top domain to get the zone id
 DOMAIN=$(expr match "$CERTBOT_DOMAIN" '.*\.\(.*\..*\)')
+if [ -z $DOMAIN ]; then
+    DOMAIN=$CERTBOT_DOMAIN
+fi
 # create payload
 PAYLOAD="{
 	\"secretapikey\":\"$SECRET_API_KEY\",
